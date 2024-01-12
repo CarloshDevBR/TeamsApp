@@ -1,23 +1,22 @@
-import { View } from 'react-native';
-
 import { StatusBar } from 'expo-status-bar';
 
 import Groups from '@screens/Groups';
 
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 
+import { GlobalLoading } from '@components/GlobalLoading';
+
 export default function App() {
-  const [fontsLoaded, fontError] = useFonts({
+  const [fontsLoaded] = useFonts({
     Roboto_400Regular,
     Roboto_700Bold,
   });
 
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+  if (!fontsLoaded) return <GlobalLoading />;
+
   return (
     <>
-      <StatusBar style="auto" />
+      <StatusBar backgroundColor="transparent" style="light" translucent />
 
       <Groups />
     </>
