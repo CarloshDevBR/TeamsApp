@@ -4,6 +4,6 @@ type ButtonIconProps = TouchableOpacityProps & {
   icon: React.ReactNode;
 };
 
-export const ButtonIcon = ({ icon }: ButtonIconProps) => {
-  return <TouchableOpacity>{icon}</TouchableOpacity>;
+export const ButtonIcon = ({ icon, ...rest }: ButtonIconProps) => {
+  return <TouchableOpacity {...rest}>{icon}</TouchableOpacity>;
 };
