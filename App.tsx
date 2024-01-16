@@ -1,14 +1,12 @@
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { StatusBar } from 'expo-status-bar';
 
-import Groups from '@screens/Groups';
-import NewGroup from '@screens/NewGroup';
-import Players from '@screens/Players';
-
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 
-import { GlobalLoading } from '@components/index';
+import { GlobalLoading } from '@components/GlobalLoading';
+
+import { Routes } from '@routes/index';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,10 +17,10 @@ export default function App() {
   if (!fontsLoaded) return <GlobalLoading />;
 
   return (
-    <View className="flex-1 bg-black-five px-[19px]">
+    <SafeAreaView className="flex-1 bg-black-five">
       <StatusBar backgroundColor="transparent" style="light" translucent />
 
-      <Players />
-    </View>
+      <Routes />
+    </SafeAreaView>
   );
 }
