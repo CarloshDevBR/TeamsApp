@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 
 import { UsersThree } from 'phosphor-react-native';
 
@@ -11,21 +11,39 @@ import { HighLight } from '@components/HighLight';
 import { TextField } from '@components/TextField';
 import { Button } from '@components/Button';
 
-import { GroupCreate } from 'src/Storage/group/GroupCreate';
+import { createStorage } from '@storage/createStorage';
+
+import { AppError } from '@utils/AppError';
+
+import { getStorage } from '@storage/getStorage';
+
+import { KEY_GROUP } from '@constants/index';
+
+import { Group } from 'src/types';
+
+import { verifyAlreadyExistsItemOnList } from '@functions/verifyAlreadyExistsItemOnList';
 
 export default function NewGroup() {
   const [group, setGroup] = useState<string>('');
 
   const navigation = useNavigation();
 
-  const handlePlayer = async () => {
-    try {
-      await GroupCreate({ id: `key-${Math.random()}`, title: group });
-
-      navigation.navigate('players', { group });
-    } catch (err) {
-      throw err;
+  const handleAddNewGroup = async () => {
+    if (group.trim() === '') {
+      return Alert.alert('Atenção', 'Digite um nome para o seu grupo');
     }
+
+    const data: Group[] = await getStorage(KEY_GROUP);
+
+    if (verifyAlreadyExistsItemOnList({ list: data, callBack: (item) => item.title === group })) {
+      throw new AppError('Já existe um grupo com esse nome');
+    }
+
+    const id = `key-${Math.random()}`;
+
+    await createStorage({ key: KEY_GROUP, value: [...data, { id, title: group }] });
+
+    navigation.navigate('players', { id });
   };
 
   return (
@@ -41,7 +59,7 @@ export default function NewGroup() {
 
         <TextField placeholder="Nome da turma" containerStyles="mb-[20px]" onChangeText={(value) => setGroup(value)} />
 
-        <Button title="Criar" onPress={handlePlayer} />
+        <Button title="Criar" onPress={handleAddNewGroup} />
       </View>
     </View>
   );
