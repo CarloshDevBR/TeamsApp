@@ -1,1 +1,0 @@
-export const KeyGroup = '@teams';
