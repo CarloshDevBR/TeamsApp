@@ -17,7 +17,7 @@ export const ListPlayers = ({ data = [] }: ListPlayersProps) => {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <Player data={item} />}
       ListEmptyComponent={<ListEmpty title="Não há pessoas nesse time." />}
-      contentContainerStyle={data?.length === 0 && { flex: 1 }}
+      contentContainerStyle={{ flex: 1 }}
     />
   );
 };
