@@ -8,7 +8,7 @@ export function AppRouter() {
   return (
     <Navigator initialRouteName="groups" screenOptions={{ headerShown: false }}>
       {ROUTES.map((item) => (
-        <Screen name={item.name} component={item.page} />
+        <Screen key={item.name} name={item.name} component={item.page} />
       ))}
     </Navigator>
   );
