@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 import { Player } from './player';
 
@@ -15,7 +15,7 @@ export const ListPlayers = ({ data = [], isLoading }: ListPlayersProps) => {
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-lg text-white font-semibold">Loading...</Text>
+        <ActivityIndicator className="text-green-primary" />
       </View>
     );
   }
