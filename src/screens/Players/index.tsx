@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 
@@ -130,7 +130,16 @@ export default function Players() {
         <ListPlayers data={filteredPlayers} isLoading={isLoading} />
       </View>
 
-      <Button title="Remover turma" className="bg-red-primary" onPress={handleDeleteGroup} />
+      <Button
+        title="Remover turma"
+        className="bg-red-primary"
+        onPress={() =>
+          Alert.alert('Remover', 'Deseja remover o grupo?', [
+            { text: 'Não', style: 'cancel' },
+            { text: 'Sim', onPress: handleDeleteGroup },
+          ])
+        }
+      />
     </View>
   );
 }
