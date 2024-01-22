@@ -11,10 +11,11 @@ export interface Filter {
 export interface Player {
   id: string;
   name: string;
-  time: Time;
+  team: Team;
+  groupId: string;
 }
 
-export interface Time {
+export interface Team {
   id: string;
   title: string;
 }

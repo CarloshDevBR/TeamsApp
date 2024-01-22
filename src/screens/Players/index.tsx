@@ -14,7 +14,7 @@ import { Button } from '@components/Button';
 
 import { ListPlayers } from './components/ListPlayers';
 
-import { Group, Player, Time } from 'src/types';
+import { Group, Player, Team } from 'src/types';
 
 import { getStorage } from '@storage/getStorage';
 import { createStorage } from '@storage/createStorage';
@@ -31,7 +31,7 @@ type RouteParams = {
 };
 
 export default function Players() {
-  const [timeSelected, setTimeSeleceted] = useState<Time>({
+  const [timeSelected, setTimeSeleceted] = useState<Team>({
     id: '1',
     title: 'Time A',
   });
@@ -43,7 +43,7 @@ export default function Players() {
 
   const route = useRoute();
 
-  const { players, addPlayer } = usePlayers();
+  const { players, getPlayers, addPlayer, isLoading } = usePlayers();
 
   const { id } = route.params as RouteParams;
 
@@ -55,22 +55,6 @@ export default function Players() {
     setGroup(group || null);
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      fetchGroup();
-    }, [])
-  );
-
-  useEffect(() => {
-    const filterTimePlayers = () => {
-      const newData = players.filter((item) => item.time.id === timeSelected.id);
-
-      setFilteredPlayers(newData);
-    };
-
-    filterTimePlayers();
-  }, [players, timeSelected]);
-
   const handleDeleteGroup = async () => {
     const data: Group[] = await getStorage(KEY_GROUP);
 
@@ -80,6 +64,26 @@ export default function Players() {
 
     navigation.navigate('groups');
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchGroup();
+
+      getPlayers(id);
+    }, [])
+  );
+
+  useEffect(() => {
+    const filterTimePlayers = () => {
+      const newData = players.filter((item) => item.team.id === timeSelected.id);
+
+      setFilteredPlayers(newData);
+
+      setNewPlayer('');
+    };
+
+    filterTimePlayers();
+  }, [players, timeSelected]);
 
   return (
     <View className="flex-1 bg-black-five px-[19px] pb-[10px]">
@@ -92,8 +96,9 @@ export default function Players() {
           placeholder="Nome do participante"
           containerStyles="mb-[20px]"
           iconEnd={<Plus size={32} color="#00875F" />}
+          value={newPlayer}
           onChangeText={(value) => setNewPlayer(value)}
-          onPressButton={() => addPlayer({ id: `key-${Math.random()}`, name: newPlayer, time: timeSelected })}
+          onPressButton={() => addPlayer({ id: `key-${Math.random()}`, name: newPlayer, team: timeSelected, groupId: id })}
         />
 
         <View className="flex flex-row mb-5">
@@ -116,7 +121,7 @@ export default function Players() {
           </View>
         </View>
 
-        <ListPlayers data={filteredPlayers} />
+        <ListPlayers data={filteredPlayers} isLoading={isLoading} />
       </View>
 
       <Button title="Remover turma" className="bg-red-primary" onPress={handleDeleteGroup} />
