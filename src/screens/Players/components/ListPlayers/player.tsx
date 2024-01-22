@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 
 import { User, X } from 'phosphor-react-native';
 
@@ -21,7 +21,15 @@ export const Player = ({ data }: PlayerProps) => {
 
       <Text className="flex-1 text-gray-secondary pl-[10px]">{data.name}</Text>
 
-      <ButtonIcon icon={<X size={24} color="#CC2937" />} onPress={() => deletePlayer(data)} />
+      <ButtonIcon
+        icon={<X size={24} color="#CC2937" />}
+        onPress={() =>
+          Alert.alert('Remover', `Deseja remover ${data.name} do time?`, [
+            { text: 'Não', style: 'cancel' },
+            { text: 'Sim', onPress: () => deletePlayer(data) },
+          ])
+        }
+      />
     </View>
   );
 };
