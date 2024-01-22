@@ -134,7 +134,7 @@ export default function Players() {
         title="Remover turma"
         className="bg-red-primary"
         onPress={() =>
-          Alert.alert('Remover', 'Deseja remover o grupo?', [
+          Alert.alert('Remover', 'Deseja remover a turma?', [
             { text: 'Não', style: 'cancel' },
             { text: 'Sim', onPress: handleDeleteGroup },
           ])

@@ -30,13 +30,13 @@ export default function NewGroup() {
 
   const handleAddNewGroup = async () => {
     if (group.trim() === '') {
-      return Alert.alert('Atenção', 'Digite um nome para o seu grupo');
+      return Alert.alert('Atenção', 'Digite um nome para a sua turma');
     }
 
     const data: Group[] = await getStorage(KEY_GROUP);
 
     if (verifyAlreadyExistsItemOnList({ list: data, callBack: (item) => item.title === group })) {
-      throw new AppError('Já existe um grupo com esse nome');
+      throw new AppError('Já existe uma turma com esse nome');
     }
 
     const id = `key-${Math.random()}`;
