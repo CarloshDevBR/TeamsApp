@@ -21,7 +21,7 @@ export const Player = ({ data }: PlayerProps) => {
 
       <Text className="flex-1 text-gray-secondary pl-[10px]">{data.name}</Text>
 
-      <ButtonIcon icon={<X size={24} color="#CC2937" />} onPress={() => deletePlayer(data.id)} />
+      <ButtonIcon icon={<X size={24} color="#CC2937" />} onPress={() => deletePlayer(data)} />
     </View>
   );
 };

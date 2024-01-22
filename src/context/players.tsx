@@ -13,7 +13,7 @@ interface PlayersContext {
   players: Player[];
   getPlayers: (id: string) => void;
   addPlayer: (newPlayer: Player) => Promise<void>;
-  deletePlayer: (id: string) => Promise<void>;
+  deletePlayer: (player: Player) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -54,12 +54,12 @@ export const PlayersProvider = ({ children }: { children: React.ReactNode }) => 
     }
   };
 
-  const deletePlayer = async (id: string) => {
-    const removedPlayerOnList: Player[] = deleteItemOnList({ id, list: players });
-
-    setPlayers(removedPlayerOnList);
+  const deletePlayer = async (player: Player) => {
+    const removedPlayerOnList: Player[] = deleteItemOnList({ id: player.id, list: all });
 
     await createStorage({ key: KEY_PLAYERS, value: removedPlayerOnList });
+
+    await getPlayers(player.groupId);
   };
 
   return <PlayersContext.Provider value={{ players, getPlayers, addPlayer, deletePlayer, isLoading }}>{children}</PlayersContext.Provider>;
