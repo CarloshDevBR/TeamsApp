@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { FlatList } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 import { GroupCard } from '../GroupCard';
 
@@ -15,12 +15,17 @@ import { Group } from 'src/types';
 import { KEY_GROUP } from '@constants/index';
 
 export const ListGroups = () => {
-  const [groups, setGrups] = useState<Group[]>();
+  const [groups, setGrups] = useState<Group[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchGroups = useCallback(async () => {
+    setIsLoading(true);
+
     const data: Group[] = await getStorage(KEY_GROUP);
 
     setGrups(data);
+
+    setIsLoading(false);
   }, []);
 
   useFocusEffect(
@@ -28,6 +33,14 @@ export const ListGroups = () => {
       fetchGroups();
     }, [])
   );
+
+  if (isLoading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator className="text-green-primary" />
+      </View>
+    );
+  }
 
   return (
     <FlatList
