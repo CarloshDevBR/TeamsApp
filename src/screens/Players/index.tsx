@@ -65,6 +65,10 @@ export default function Players() {
     navigation.navigate('groups');
   };
 
+  const handleAddNewPlayer = async () => {
+    await addPlayer({ id: `key-${Math.random()}`, name: newPlayer, team: timeSelected, groupId: id });
+  };
+
   useFocusEffect(
     useCallback(() => {
       fetchGroup();
@@ -98,7 +102,9 @@ export default function Players() {
           iconEnd={<Plus size={32} color="#00875F" />}
           value={newPlayer}
           onChangeText={(value) => setNewPlayer(value)}
-          onPressButton={() => addPlayer({ id: `key-${Math.random()}`, name: newPlayer, team: timeSelected, groupId: id })}
+          onPressButton={handleAddNewPlayer}
+          onSubmitEditing={handleAddNewPlayer}
+          returnKeyType="done"
         />
 
         <View className="flex flex-row mb-5">

@@ -57,7 +57,13 @@ export default function NewGroup() {
 
         <HighLight title="Nova turma" subtitle="crie uma turma para adicionar pessoas" />
 
-        <TextField placeholder="Nome da turma" containerStyles="mb-[20px]" onChangeText={(value) => setGroup(value)} />
+        <TextField
+          placeholder="Nome da turma"
+          containerStyles="mb-[20px]"
+          onChangeText={(value) => setGroup(value)}
+          onSubmitEditing={handleAddNewGroup}
+          returnKeyType="done"
+        />
 
         <Button title="Criar" onPress={handleAddNewGroup} />
       </View>
